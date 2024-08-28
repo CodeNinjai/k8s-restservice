@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  helloworldservice:
+    image: helloworldservice:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DATABASE_URL=jdbc:mysql://db:3306/helloworlddb
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=rootpassword
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: helloworlddb
+    ports:
+      - "3306:3306"
